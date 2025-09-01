@@ -1,0 +1,43 @@
+{
+  "name": "VibeVoice-Large Serverless",
+  "description": "Microsoft VibeVoice-Large (9.34B params) - Frontier Text-to-Speech Model with up to 4 speakers and 45min generation",
+  "readme": "# VibeVoice-Large Serverless\n\nDeploy Microsoft's frontier VibeVoice-Large model (9.34B parameters) as a serverless endpoint.\n\n## Features\n- 🎙️ Up to 4 speakers\n- ⏱️ Up to 45 minutes generation\n- 🌍 English & Chinese support\n- 💰 Pay-per-use serverless\n- ⚡ Auto-scaling to zero\n\n## Usage\n\n```python\nimport requests\n\nresponse = requests.post(\n    'https://api.runpod.ai/v2/{ENDPOINT_ID}/runsync',\n    headers={'Authorization': 'Bearer {API_KEY}'},\n    json={\n        'input': {\n            'text': 'Speaker 1: Hello! Speaker 2: Hi there!',\n            'speaker_names': ['Alice', 'Bob']\n        }\n    }\n)\n\nresult = response.json()\n```\n\n## Model Info\n- Model: microsoft/VibeVoice-Large\n- Parameters: 9.34B\n- Languages: English, Chinese\n- Max Context: 32K tokens\n- Research use only\n",
+  "dockerArgs": "",
+  "containerDiskInGb": 50,
+  "volumeInGb": 0,
+  "volumeMountPath": "",
+  "ports": "8000/http",
+  "env": [
+    {
+      "key": "MODEL_PATH",
+      "value": "/app/models/VibeVoice-Large"
+    },
+    {
+      "key": "TRANSFORMERS_CACHE", 
+      "value": "/app/cache"
+    },
+    {
+      "key": "HF_HOME",
+      "value": "/app/cache"
+    },
+    {
+      "key": "PYTORCH_CUDA_ALLOC_CONF",
+      "value": "max_split_size_mb:512"
+    }
+  ],
+  "isServerless": true,
+  "startScript": "",
+  "imageName": "runpod/pytorch:2.2.0-py3.10-cuda12.1.1-devel-ubuntu22.04",
+  "isPublic": true,
+  "category": "AI/ML",
+  "advancedConfiguration": {
+    "containerRegistry": {
+      "url": "",
+      "username": "",
+      "password": ""
+    },
+    "dockerBuildArgs": {
+      "BUILDKIT_INLINE_CACHE": "1"
+    }
+  }
+}

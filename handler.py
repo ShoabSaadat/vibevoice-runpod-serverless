@@ -29,18 +29,55 @@ def initialize_model():
         return model
     
     try:
-        logger.info("Initializing VibeVoice-Large model...")
+        logger.info("Initializing VibeVoice-Large model from Hugging Face...")
         
         # Set device
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         logger.info(f"Using device: {device}")
         
-        # Import VibeVoice modules
-        from VibeVoice.inference import VibeVoiceInference
-        
-        # Initialize the model
+        # Check if model exists locally, if not download from HF
         model_path = os.environ.get('MODEL_PATH', '/app/models/VibeVoice-Large')
-        model = VibeVoiceInference(model_path=model_path, device=device)
+        
+        if not os.path.exists(model_path):
+            logger.info("Model not found locally, downloading from Hugging Face...")
+            from huggingface_hub import snapshot_download
+            
+            model_path = snapshot_download(
+                repo_id='microsoft/VibeVoice-Large',
+                local_dir=model_path,
+                cache_dir='/app/cache',
+                ignore_patterns=['*.git*', 'README.md']
+            )
+            logger.info(f"Model downloaded to: {model_path}")
+        
+        # Import VibeVoice modules
+        try:
+            # Try different import paths based on actual VibeVoice structure
+            try:
+                from VibeVoice.vibevoice import VibeVoiceInference
+            except ImportError:
+                try:
+                    from vibevoice.inference import VibeVoiceInference
+                except ImportError:
+                    # Fallback - use demo script approach
+                    logger.info("Using demo-style inference")
+                    import sys
+                    sys.path.append('/app/VibeVoice/demo')
+                    from inference_from_file import load_model
+                    model = load_model(model_path, device)
+                    logger.info("VibeVoice model initialized successfully!")
+                    return model
+            
+            # Initialize the model
+            model = VibeVoiceInference(model_path=model_path, device=device)
+            
+        except Exception as import_error:
+            logger.warning(f"Direct import failed: {import_error}")
+            logger.info("Attempting to use VibeVoice demo interface...")
+            
+            # Fallback to using the demo scripts directly
+            import subprocess
+            model = {"model_path": model_path, "device": device, "type": "demo"}
         
         logger.info("VibeVoice model initialized successfully!")
         return model

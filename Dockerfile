@@ -31,8 +31,10 @@ RUN pip install --no-cache-dir \
     accelerate \
     flash-attn --no-build-isolation
 
-# Pre-download the VibeVoice-Large model (9.34B params)
-RUN python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='microsoft/VibeVoice-Large', local_dir='/app/models/VibeVoice-Large', ignore_patterns=['*.git*'])"
+# Pre-download the VibeVoice-Large model (9.34B params) from Hugging Face
+ENV HF_HUB_CACHE=/app/cache
+RUN mkdir -p /app/models /app/cache
+RUN python -c "from huggingface_hub import snapshot_download; print('Downloading VibeVoice-Large model...'); snapshot_download(repo_id='microsoft/VibeVoice-Large', local_dir='/app/models/VibeVoice-Large', cache_dir='/app/cache', ignore_patterns=['*.git*', 'README.md']); print('Model downloaded successfully!')"
 
 # Copy the serverless handler
 COPY handler.py /app/handler.py
