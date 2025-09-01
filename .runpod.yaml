@@ -1,0 +1,16 @@
+name: VibeVoice-Large-Serverless
+base_image: runpod/pytorch:2.2.0-py3.10-cuda12.1.1-devel-ubuntu22.04
+
+build_commands:
+  - apt-get update && apt-get install -y git ffmpeg wget curl
+  - git clone https://github.com/microsoft/VibeVoice.git /app/VibeVoice
+  - cd /app/VibeVoice && pip install -e .
+  - pip install runpod requests numpy torch transformers accelerate flash-attn --no-build-isolation
+  - python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='microsoft/VibeVoice-Large', local_dir='/app/models/VibeVoice-Large')"
+
+env:
+  MODEL_PATH: /app/models/VibeVoice-Large
+  TRANSFORMERS_CACHE: /app/cache
+  HF_HOME: /app/cache
+
+handler: handler.py

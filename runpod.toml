@@ -1,0 +1,30 @@
+[project]
+uuid = ""
+name = "VibeVoice-Large-Serverless"
+description = "VibeVoice-Large: A Frontier Text-to-Speech Model (9.34B params)"
+
+[build]
+base_image = "runpod/pytorch:2.2.0-py3.10-cuda12.1.1-devel-ubuntu22.04"
+python_version = "3.10"
+cuda_version = "12.1"
+
+[build.env_vars]
+MODEL_NAME = "microsoft/VibeVoice-Large"
+MODEL_PATH = "/app/models/VibeVoice-Large"
+TRANSFORMERS_CACHE = "/app/cache"
+HF_HOME = "/app/cache"
+PYTORCH_CUDA_ALLOC_CONF = "max_split_size_mb:512"
+
+[build.system_packages]
+ffmpeg = "latest"
+git = "latest"
+wget = "latest"
+curl = "latest"
+
+[runtime]
+handler_path = "handler.py"
+requirements_path = "requirements.txt"
+
+[runtime.env_vars]
+CUDA_VISIBLE_DEVICES = "0"
+TORCH_CUDA_ARCH_LIST = "7.0;7.5;8.0;8.6;8.9;9.0"
