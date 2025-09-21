@@ -6,7 +6,7 @@ build_commands:
   - git clone https://github.com/microsoft/VibeVoice.git /app/VibeVoice
   - cd /app/VibeVoice && pip install -e .
   - pip install runpod requests numpy torch transformers accelerate flash-attn --no-build-isolation
-  - python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aoi-ot/VibeVoice-Large', local_dir='/app/models/VibeVoice-Large')"
+  - python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='microsoft/VibeVoice-1.5B', local_dir='/app/models/VibeVoice-Large')"
 
 env:
   MODEL_PATH: /app/models/VibeVoice-Large

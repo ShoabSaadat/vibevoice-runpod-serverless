@@ -43,7 +43,7 @@ def initialize_model():
             from huggingface_hub import snapshot_download
             
             model_path = snapshot_download(
-                repo_id='aoi-ot/VibeVoice-Large',
+                repo_id='microsoft/VibeVoice-1.5B',
                 local_dir=model_path,
                 cache_dir='/app/cache',
                 ignore_patterns=['*.git*', 'README.md']
