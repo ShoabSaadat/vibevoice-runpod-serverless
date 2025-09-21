@@ -12,4 +12,4 @@ Microsoft VibeVoice-Large (9.34B parameters) deployed as RunPod serverless endpo
 ## Deployment
 Direct deployment from Hugging Face to RunPod Serverless - no manual uploads required!
 
-Model automatically downloaded from: https://huggingface.co/microsoft/VibeVoice-Large
+Model automatically downloaded from: https://huggingface.co/aoi-ot/VibeVoice-Large

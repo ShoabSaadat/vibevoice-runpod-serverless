@@ -19,7 +19,7 @@ This guide shows how to deploy VibeVoice directly from Hugging Face to RunPod Se
 
 **Environment Variables:**
 ```env
-MODEL_NAME=microsoft/VibeVoice-Large
+MODEL_NAME=aoi-ot/VibeVoice-Large
 MODEL_PATH=/app/models/VibeVoice-Large
 HF_HOME=/app/cache
 TRANSFORMERS_CACHE=/app/cache
@@ -33,7 +33,7 @@ git clone https://github.com/microsoft/VibeVoice.git /app/VibeVoice
 cd /app/VibeVoice && pip install -e .
 pip install runpod requests transformers accelerate flash-attn --no-build-isolation
 mkdir -p /app/models /app/cache
-python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='microsoft/VibeVoice-Large', local_dir='/app/models/VibeVoice-Large', cache_dir='/app/cache')"
+python -c "from huggingface_hub import snapshot_download; snapshot_download(repo_id='aoi-ot/VibeVoice-Large', local_dir='/app/models/VibeVoice-Large', cache_dir='/app/cache')"
 ```
 
 **Handler Code (Paste this directly):**
@@ -77,7 +77,7 @@ def ensure_model():
             from huggingface_hub import snapshot_download
             
             snapshot_download(
-                repo_id='microsoft/VibeVoice-Large',
+                repo_id='aoi-ot/VibeVoice-Large',
                 local_dir=model_path,
                 cache_dir='/app/cache'
             )
