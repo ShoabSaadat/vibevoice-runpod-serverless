@@ -7,7 +7,7 @@ import time
 
 # Configuration
 RUNPOD_API_KEY = os.getenv('RUNPOD_API_KEY')
-GITHUB_REPO_URL = "https://github.com/YOUR-USERNAME/vibevoice-runpod-serverless"  # Update this!
+GITHUB_REPO_URL = "https://github.com/ShoabSaadat/vibevoice-runpod-serverless"  # Update this!
 
 def create_serverless_endpoint():
     """Create a serverless endpoint using RunPod API"""
